@@ -1,20 +1,22 @@
 import pygame
+
 pygame.init()
+
+
 # from mang import *
 
-class Jouluvana:
-    def __init__(self, asukoht):
-        self.alguskoht = [asukoht.x, asukoht.y]
-        self.x = asukoht.x
-        self.y = asukoht.y
-        self.suund = 'paremale'
-        self.vana = pygame.image.load("vana.png")
-        pygame.display.update()
+class Jouluvana(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('vana.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
-    def votaVana(self):
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+        pygame.display.flip()
 
-        #vana.get_rect()
-        #self.aken.blit(vana, (0, 0))
-        print('teeb jõuluvana pildi')
 
-    votaVana()
+
+

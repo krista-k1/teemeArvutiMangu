@@ -1,5 +1,8 @@
 import pygame
 
+import jouluvana
+from jouluvana import Jouluvana
+
 pygame.init()
 import sys
 
@@ -11,10 +14,11 @@ class Mang:
         self.aken = pygame.display.set_mode([800, 600])
         self.aken.fill([255, 255, 255])
         self.background = pygame.image.load('lol.png')
+
         self.kell = pygame.time.Clock()
         self.mangTootab = True
         self.etapp = 'algus'
-        # self.joulukas = Jouluvana(self)
+        self.joulukas = Jouluvana(100, 100)
         pygame.display.flip()
 
     def kontrolli(self):
@@ -28,7 +32,6 @@ class Mang:
                 print('mäng algab, tuleb mänguaken')
                 self.teeManguAken()
                 self.mangi()
-                
             elif self.etapp == 'mang_on_labi':
                 print('nüüd sai mäng läbi, tuleb lõpuaken')
                 self.teeLopuAken()
@@ -52,6 +55,8 @@ class Mang:
     def mangi(self):
         # jouluvana.votaVana()
         print('mängi ja mängi ja mängi')
+        self.joulukas.draw(self.aken)
+
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.mangTootab = False
