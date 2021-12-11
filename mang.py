@@ -31,6 +31,7 @@ class Mang:
             elif self.etapp == 'mang_kaib':
                 print('mäng algab, tuleb mänguaken')
                 self.teeManguAken()
+                self.joulukas.kuva_pilt_ekraanile(self.aken)
                 self.mangi()
             elif self.etapp == 'mang_on_labi':
                 print('nüüd sai mäng läbi, tuleb lõpuaken')
@@ -55,37 +56,38 @@ class Mang:
     def mangi(self):
         # jouluvana.votaVana()
         print('mängi ja mängi ja mängi')
-        self.joulukas.draw(self.aken)
-
+        #self.joulukas.kuva_pilt_ekraanile(self.aken)
+        #self.joulukas.juhi_nooltega()
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.mangTootab = False
                 sys.exit()
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                self.etapp = 'mang_on_labi'
-                print('vajutasid esc, etapp mang_on_labi hakkas tööle')
-
-
-
-
-
+            elif e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_UP:
+                    self.joulukas.rect.y = self.joulukas.rect.y - self.joulukas.samm
+                elif e.key == pygame.K_DOWN:
+                    self.joulukas.rect.y = self.joulukas.rect.y + self.joulukas.samm
+                elif e.key == pygame.K_LEFT:
+                    self.joulukas.rect.x = self.joulukas.rect.x - self.joulukas.samm
+                elif e.key == pygame.K_RIGHT:
+                    self.joulukas.rect.x = self.joulukas.rect.x + self.joulukas.samm
 
 
     def teeAlguseAken(self):
         self.aken.fill([255, 255, 0])
         print('värvib alguseakna kollaseks')
-        pygame.display.update()
+        #pygame.display.update()
 
     def teeManguAken(self):
         self.background = pygame.image.load('lol.png')
         self.aken.blit(self.background, (0, 0))
         print('teeb mänguakna taustapildiga')
-        pygame.display.update()
+        #pygame.display.update()
 
     def teeLopuAken(self):
         self.aken.fill([255, 0, 0])
         print('värvib lõpuakna punaseks')
-        pygame.display.update()
+        #pygame.display.update()
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit()

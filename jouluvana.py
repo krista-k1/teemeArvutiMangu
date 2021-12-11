@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 pygame.init()
@@ -12,10 +14,13 @@ class Jouluvana(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.samm = 100
 
-    def draw(self, screen):
+    def kuva_pilt_ekraanile(self, screen):
         screen.blit(self.image, self.rect)
         pygame.display.flip()
+
+
 
 
 
