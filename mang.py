@@ -1,8 +1,7 @@
-import sys
-
 import pygame
 
 pygame.init()
+import sys
 
 
 # pygame.display.set_caption('Jõulumäng')
@@ -15,6 +14,7 @@ class Mang:
         self.kell = pygame.time.Clock()
         self.mangTootab = True
         self.etapp = 'algus'
+        # self.joulukas = Jouluvana(self)
         pygame.display.flip()
 
     def kontrolli(self):
@@ -28,7 +28,7 @@ class Mang:
                 print('mäng algab, tuleb mänguaken')
                 self.teeManguAken()
                 self.mangi()
-                self.lopeta()
+                
             elif self.etapp == 'mang_on_labi':
                 print('nüüd sai mäng läbi, tuleb lõpuaken')
                 self.teeLopuAken()
@@ -37,7 +37,7 @@ class Mang:
             pygame.display.update()
             #self.kell.tick(0.1)
             print(self.kell)
-        #pygame.quit()
+        pygame.quit()
         sys.exit()
 
     def alusta(self):
@@ -50,10 +50,8 @@ class Mang:
                 print('vajutasid tühikut, etapp mang_kaib hakkas tööle')
 
     def mangi(self):
+        # jouluvana.votaVana()
         print('mängi ja mängi ja mängi')
-
-
-    def lopeta (self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.mangTootab = False
@@ -61,6 +59,12 @@ class Mang:
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 self.etapp = 'mang_on_labi'
                 print('vajutasid esc, etapp mang_on_labi hakkas tööle')
+
+
+
+
+
+
 
     def teeAlguseAken(self):
         self.aken.fill([255, 255, 0])
@@ -71,7 +75,7 @@ class Mang:
         self.background = pygame.image.load('lol.png')
         self.aken.blit(self.background, (0, 0))
         print('teeb mänguakna taustapildiga')
-        # pygame.display.update()
+        pygame.display.update()
 
     def teeLopuAken(self):
         self.aken.fill([255, 0, 0])
