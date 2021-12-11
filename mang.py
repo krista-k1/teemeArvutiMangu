@@ -1,5 +1,5 @@
 import pygame
-
+import pygame_gui
 import jouluvana
 from jouluvana import Jouluvana
 
@@ -12,6 +12,7 @@ class Mang:
 
     def __init__(self):
         self.aken = pygame.display.set_mode([800, 600])
+        self.manager = pygame_gui.UIManager([800, 600])
         self.aken.fill([255, 255, 255])
         self.background = pygame.image.load('lol.png')
 
@@ -53,6 +54,20 @@ class Mang:
                 self.etapp = 'mang_kaib'
                 print('vajutasid tühikut, etapp mang_kaib hakkas tööle')
 
+            elif e.type == pygame.USEREVENT:
+                if e.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if e.ui_element == self.minemängu:
+                        print("alustasid mängu")
+                        self.etapp = "mang_kaib"
+                    if e.ui_element == self.seaded:
+                        print("seaded")
+                    if e.ui_element == self.mänguautorid:
+                        print("Autorid")
+                    if e.ui_element == self.panekinni:
+                        pygame.quit()
+
+            self.manager.process_events(e)
+
     def mangi(self):
         # jouluvana.votaVana()
         print('mängi ja mängi ja mängi')
@@ -74,9 +89,19 @@ class Mang:
 
 
     def teeAlguseAken(self):
-        self.aken.fill([255, 255, 0])
-        print('värvib alguseakna kollaseks')
-        #pygame.display.update()
+        self.minemängu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
+        self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
+        self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
+        self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
+
+        self.aken.fill([0, 0, 0])
+        self.manager.update(0.1)
+        self.manager.draw_ui(self.aken)
+        pygame.display.update()
+
+    def Seaded(self):
+        self.muusikaliugur = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 100), (250, 40)), 50, (0, 99), self.manager)
+        self.heliefektid = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 300), (250, 40)), 50, (0, 99), self.manager)
 
     def teeManguAken(self):
         self.background = pygame.image.load('lol.png')
