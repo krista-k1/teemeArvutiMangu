@@ -37,23 +37,27 @@ class Mang:
             pygame.display.update()
             #self.kell.tick(0.1)
             print(self.kell)
-        pygame.quit()
+        #pygame.quit()
         sys.exit()
 
     def alusta(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.mangTootab = False
+                sys.exit()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 self.etapp = 'mang_kaib'
                 print('vajutasid tühikut, etapp mang_kaib hakkas tööle')
+
     def mangi(self):
         print('mängi ja mängi ja mängi')
+
 
     def lopeta (self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.mangTootab = False
+                sys.exit()
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 self.etapp = 'mang_on_labi'
                 print('vajutasid esc, etapp mang_on_labi hakkas tööle')
@@ -73,5 +77,8 @@ class Mang:
         self.aken.fill([255, 0, 0])
         print('värvib lõpuakna punaseks')
         pygame.display.update()
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                sys.exit()
 
 
