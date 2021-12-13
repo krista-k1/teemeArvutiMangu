@@ -15,16 +15,28 @@ class Mang:
         self.manager = pygame_gui.UIManager([800, 600])
         self.aken.fill([255, 255, 255])
         self.background = pygame.image.load('lol.png')
-
         self.kell = pygame.time.Clock()
         self.mangTootab = True
         self.etapp = 'algus'
         self.joulukas = Jouluvana(100, 100)
+        pygame.mixer.music.load("mingitaustamuusika.mp3")
+        taustamuusika = pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.5)
+
+
         self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
-        self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
-        self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
+        self.nuppseaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
         self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
         self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
+        self.seadedtagasi = pygame_gui.elements.UIButton(pygame.Rect((500, 400), (150, 50)), "Tagasi", self.manager)
+        self.muusikaliugur = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 100), (250, 40)), 50, (0, 99),
+                                                                    self.manager)
+        self.heliefektid = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 300), (250, 40)), 50, (0, 99),
+                                                                  self.manager)
+        self.heliefektid.hide()
+        self.muusikaliugur.hide()
+        self.seadedtagasi.hide()
+
         pygame.display.flip()
 
     def kontrolli(self):
@@ -34,6 +46,12 @@ class Mang:
                 print('mäng algab, tuleb alguseaken')
                 self.alusta()
                 self.teeAlguseAken()
+            elif self.etapp == 'seaded':
+                self.alusta()
+                self.seaded()
+            elif self.etapp == "autorid":
+                self.alusta()
+                self.autorid()
 
             elif self.etapp == 'mang_kaib':
                 print('mäng algab, tuleb mänguaken')
@@ -65,12 +83,19 @@ class Mang:
                     if e.ui_element == self.minemangu:
                         print("alustasid mängu jhjhjhjhk")
                         self.etapp = 'mang_kaib'
-                    if e.ui_element == self.seaded:
+                    if e.ui_element == self.nuppseaded:
                         print("seaded")
+                        self.etapp = 'seaded'
                     if e.ui_element == self.mänguautorid:
                         print("Autorid")
+                        self.etapp = "autorid"
                     if e.ui_element == self.panekinni:
                         pygame.quit()
+                    if e.ui_element == self.seadedtagasi:
+                        self.etapp = 'algus'
+                if e.user_type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
+                    if e.ui_element == self.muusikaliugur:
+                        pygame.mixer.music.set_volume(e.value / 100)
 
             self.manager.process_events(e)
 
@@ -99,17 +124,46 @@ class Mang:
        #self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
         #self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
         #self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
-
-        self.aken.fill([0, 0, 0])
+        self.menüü_pilt = pygame.image.load("menüü.png")
+        self.minemangu.show()
+        self.nuppseaded.show()
+        self.mänguautorid.show()
+        self.panekinni.show()
+        self.heliefektid.hide()
+        self.muusikaliugur.hide()
+        self.seadedtagasi.hide()
+        self.aken.blit(self.menüü_pilt, (0, 0))
         self.manager.update(0.1)
         self.manager.draw_ui(self.aken)
         pygame.display.update()
 
-    def Seaded(self):
-        self.muusikaliugur = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 100), (250, 40)), 50, (0, 99),
-                                                                    self.manager)
-        self.heliefektid = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 300), (250, 40)), 50, (0, 99),
-                                                                  self.manager)
+    def seaded(self):
+
+        self.seaded_taust = pygame.image.load("seaded.png")
+        self.minemangu.hide()
+        self.nuppseaded.hide()
+        self.mänguautorid.hide()
+        self.panekinni.hide()
+        self.heliefektid.show()
+        self.muusikaliugur.show()
+        self.seadedtagasi.show()
+        self.aken.blit(self.seaded_taust, (0, 0))
+        self.manager.update(0.1)
+        self.manager.draw_ui(self.aken)
+        pygame.display.update()
+
+    def autorid(self):
+
+        self.autorid_taust = pygame.image.load("autorid.png")
+        self.aken.blit(self.autorid_taust, (0, 0))
+        self.minemangu.hide()
+        self.nuppseaded.hide()
+        self.mänguautorid.hide()
+        self.panekinni.hide()
+        self.seadedtagasi.show()
+        self.manager.update(0.1)
+        self.manager.draw_ui(self.aken)
+        pygame.display.update()
 
     def teeManguAken(self):
         self.background = pygame.image.load('lol.png')
