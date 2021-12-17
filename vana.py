@@ -1,0 +1,113 @@
+import sys
+
+import pygame
+
+pygame.init()
+
+class Vana:
+
+    def __init__(self, x, y):
+
+        self.aken = pygame.display.set_mode([1024, 768])
+        self.vana = pygame.image.load("vana.png")
+        self.rect = self.vana.get_rect()
+
+        self.halb = (0, 0, 0, 255)
+
+        self.vana_x = x
+        self.vana_y = y
+
+        self.vana_x_p_liigub = 0
+        self.vana_x_v_liigub = 0
+        self.vana_y_ü_liigub = 0
+        self.vana_y_a_liigub = 0
+
+        self.ü = False
+        self.a = False
+        self.v = False
+        self.p = False
+
+        self.baas_kiirus = 100
+        self.kell = pygame.time.Clock()
+        self.dt = self.kell.tick() / 100
+        self.elab = True
+
+        self.mäng_töötab = True
+
+    def vana_liikumine(self):
+
+        self.dt = self.kell.tick() / 100
+        for e in pygame.event.get():
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_UP:
+                    self.vana_y_ü_liigub += -self.baas_kiirus
+                    print("üles")
+                if e.key == pygame.K_DOWN:
+                    self.vana_y_a_liigub += self.baas_kiirus
+                if e.key == pygame.K_LEFT:
+                    self.vana_x_v_liigub += -self.baas_kiirus
+                if e.key == pygame.K_RIGHT:
+                    self.vana_x_p_liigub += self.baas_kiirus
+                if e.key == pygame.K_ESCAPE:
+                    pygame.quit()
+
+            elif e.type == pygame.KEYUP:
+                if e.key == pygame.K_UP:
+                    self.vana_y_ü_liigub -= -self.baas_kiirus
+                if e.key == pygame.K_DOWN:
+                    self.vana_y_a_liigub -= self.baas_kiirus
+                if e.key == pygame.K_LEFT:
+                    self.vana_x_v_liigub -= -self.baas_kiirus
+                if e.key == pygame.K_RIGHT:
+                    self.vana_x_p_liigub -= self.baas_kiirus
+
+        self.vana_all_x = int(self.vana_x) + 29
+        self.vana_all_y = int(self.vana_y) + 55
+        self.vana_üleval_x = int(self.vana_x) + 29
+        self.vana_üleval_y = int(self.vana_y) - 1
+        self.vana_vasak_x = int(self.vana_x)
+        self.vana_vasak_y = int(self.vana_y) + 28
+        self.vana_parem_x = int(self.vana_x) + 58
+        self.vana_parem_y = int(self.vana_y) + 28
+
+        self.värv_üleval = self.aken.get_at((self.vana_üleval_x, self.vana_üleval_y))
+        self.värv_all = self.aken.get_at((self.vana_all_x, self.vana_all_y))
+        self.värv_vasak = self.aken.get_at((self.vana_vasak_x, self.vana_vasak_y))
+        self.värv_parem = self.aken.get_at((self.vana_parem_x, self.vana_parem_y))
+
+        if self.värv_all == self.halb:
+            self.vana_y_a_liigub = 0
+            self.a = True
+
+        if self.värv_all != self.halb:
+             self.vana_y += self.vana_y_a_liigub * self.dt
+             print("eeeee")
+             self.a = False
+        print(self.vana_y_ü_liigub)
+        if self.värv_üleval == self.halb:
+            self.vana_y_ü_liigub = 0
+            self.ü = True
+        print(self.vana_x, self.vana_y)
+        if self.värv_üleval != self.halb:
+            self.vana_y += self.vana_y_ü_liigub * self.dt
+            ü = False
+
+        if self.värv_parem == self.halb:
+            self.vana_x_p_liigub = 0
+            self.p = True
+
+        if self.värv_parem != self.halb:
+            self.vana_x += self.vana_x_p_liigub * self.dt
+            self.p = False
+
+
+        if self.värv_vasak == self.halb:
+            self.vana_x_v_liigub = 0
+            self.v = True
+
+        if self.värv_vasak != self.halb:
+            self.vana_x += self.vana_x_v_liigub * self.dt
+
+            self.v = False
+
+

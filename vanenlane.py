@@ -3,17 +3,17 @@ import pygame_gui
 
 pygame.init()
 
-class Bot(pygame.sprite.Sprite):
+class Bot:
 
-    def __init__(self):
+    def __init__(self, x, y):
 
         self.aken = pygame.display.set_mode([1024, 768])
         self.halb = (0, 0, 0, 255)
 
         self.koll = pygame.image.load("lamp.png")
 
-        self.koll_x = 800
-        self.koll_y = 450
+        self.koll_x = x
+        self.koll_y = y
 
         self.koll_y_a_liigub = 0
         self.koll_y_ü_liigub = 0
@@ -52,13 +52,13 @@ class Bot(pygame.sprite.Sprite):
 
             nr1 = random.randint(0, 3)
             if nr1 == 0 and self.ka != True:
-                self.koll_y_a_liigub = 1000
+                self.koll_y_a_liigub = 100
             if nr1 == 1 and self.kv != True:
-                self.koll_x_v_liigub = 1000
+                self.koll_x_v_liigub = 100
             if nr1 == 2 and self.kp != True:
-                self.koll_x_p_liigub = 1000
+                self.koll_x_p_liigub = 100
             if nr1 == 3 and self.kü != True:
-                self.koll_y_ü_liigub = 1000
+                self.koll_y_ü_liigub = 100
 
         if self.koll_värv_üleval == self.halb:
             self.kü = True
@@ -90,11 +90,7 @@ class Bot(pygame.sprite.Sprite):
         if self.koll_y > 1020 or self.koll_y < 0:
             self.koll_y = 300
 
-
-        self.koll_y -= self.koll_y_ü_liigub * self.dt
-        self.koll_y += self.koll_y_a_liigub * self.dt
-        self.koll_x += self.koll_x_p_liigub * self.dt
-        self.koll_x -= self.koll_x_v_liigub * self.dt
+    def ai_pilt(self):
 
 
         self.aken.blit(self.koll, [self.koll_x, self.koll_y])
