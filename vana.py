@@ -4,6 +4,7 @@ import pygame
 
 pygame.init()
 
+
 class Vana:
 
     def __init__(self, x, y):
@@ -27,9 +28,14 @@ class Vana:
         self.v = False
         self.p = False
 
-        self.baas_kiirus = 100
+        self.võib_liikuda_ü = False
+        self.võib_liikuda_a = False
+        self.võib_liikuda_v = False
+        self.võib_liikuda_p = False
+
+        self.baas_kiirus = 50
         self.kell = pygame.time.Clock()
-        self.dt = self.kell.tick() / 100
+        self.dt = self.kell.tick() / 1000
         self.elab = True
 
         self.mäng_töötab = True
@@ -41,25 +47,44 @@ class Vana:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_UP:
                     self.vana_y_ü_liigub += -self.baas_kiirus
-                    print("üles")
+                    self.võib_liikuda_ü = True
+                    print(self.võib_liikuda_ü)
                 if e.key == pygame.K_DOWN:
                     self.vana_y_a_liigub += self.baas_kiirus
+                    self.võib_liikuda_a = True
+                    print(self.võib_liikuda_a)
                 if e.key == pygame.K_LEFT:
                     self.vana_x_v_liigub += -self.baas_kiirus
+                    self.võib_liikuda_v = True
+                    print(self.võib_liikuda_v)
                 if e.key == pygame.K_RIGHT:
                     self.vana_x_p_liigub += self.baas_kiirus
+                    self.võib_liikuda_p = True
+                    print(self.võib_liikuda_p)
                 if e.key == pygame.K_ESCAPE:
                     pygame.quit()
 
             elif e.type == pygame.KEYUP:
                 if e.key == pygame.K_UP:
                     self.vana_y_ü_liigub -= -self.baas_kiirus
+                    self.võib_liikuda_ü = False
+                    print(self.võib_liikuda_ü)
+                    print("keyup üles")
                 if e.key == pygame.K_DOWN:
                     self.vana_y_a_liigub -= self.baas_kiirus
+                    self.võib_liikuda_a = False
+                    print(self.võib_liikuda_a)
+                    print("keyup alla")
                 if e.key == pygame.K_LEFT:
                     self.vana_x_v_liigub -= -self.baas_kiirus
+                    self.võib_liikuda_v = False
+                    print(self.võib_liikuda_v)
+                    print("keyup vasak")
                 if e.key == pygame.K_RIGHT:
                     self.vana_x_p_liigub -= self.baas_kiirus
+                    self.võib_liikuda_p = False
+                    print(self.võib_liikuda_p)
+                    print("keyup parem")
 
         self.vana_all_x = int(self.vana_x) + 29
         self.vana_all_y = int(self.vana_y) + 55
@@ -80,34 +105,43 @@ class Vana:
             self.a = True
 
         if self.värv_all != self.halb:
-             self.vana_y += self.vana_y_a_liigub * self.dt
-             print("eeeee")
-             self.a = False
-        print(self.vana_y_ü_liigub)
+            if self.võib_liikuda_a == True:
+                self.vana_y += self.vana_y_a_liigub * self.dt
+
+                self.a = False
+            else:
+                self.vana_y_a_liigub = 0
+
         if self.värv_üleval == self.halb:
             self.vana_y_ü_liigub = 0
             self.ü = True
-        print(self.vana_x, self.vana_y)
-        if self.värv_üleval != self.halb:
-            self.vana_y += self.vana_y_ü_liigub * self.dt
-            ü = False
 
+        if self.värv_üleval != self.halb:
+            if self.võib_liikuda_ü == True:
+                self.vana_y += self.vana_y_ü_liigub * self.dt
+                self.ü = False
+            else:
+                self.vana_y_ü_liigub = 0
         if self.värv_parem == self.halb:
             self.vana_x_p_liigub = 0
             self.p = True
 
         if self.värv_parem != self.halb:
-            self.vana_x += self.vana_x_p_liigub * self.dt
-            self.p = False
-
+            if self.võib_liikuda_p == True:
+                self.vana_x += self.vana_x_p_liigub * self.dt
+                self.p = False
+            else:
+                self.vana_x_p_liigub = 0
 
         if self.värv_vasak == self.halb:
             self.vana_x_v_liigub = 0
             self.v = True
 
         if self.värv_vasak != self.halb:
-            self.vana_x += self.vana_x_v_liigub * self.dt
-
-            self.v = False
+            if self.võib_liikuda_v == True:
+                self.vana_x += self.vana_x_v_liigub * self.dt
+                self.v = False
+            else:
+                self.vana_x_v_liigub = 0
 
 

@@ -22,7 +22,7 @@ class Mang:
         self.ai = Bot(200, 200)
         pygame.mixer.music.load("mingitaustamuusika.mp3")
         taustamuusika = pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.set_volume(0.0)
 
 
         self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
