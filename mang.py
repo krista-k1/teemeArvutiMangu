@@ -3,6 +3,9 @@ import pygame_gui
 import jouluvana
 from vana import Vana
 from vanenlane import Bot
+from vanenlane2 import Bot2
+from vanenlane3 import Bot3
+from vanenlane4 import Bot4
 pygame.init()
 import sys
 
@@ -20,6 +23,9 @@ class Mang:
         self.etapp = 'algus'
         self.main = Vana(470 , 400)
         self.ai = Bot(200, 200)
+        self.ai2 = Bot2(200, 200)
+        self.ai3 = Bot3(400, 400)
+        self.ai4 = Bot4(500, 500)
         pygame.mixer.music.load("mingitaustamuusika.mp3")
         taustamuusika = pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.0)
@@ -60,7 +66,13 @@ class Mang:
                 self.main.vana_liikumine()
 
                 self.ai.bot_liikumine()
+                self.ai2.bot_liikumine()
+                self.ai3.bot_liikumine()
+                self.ai4.bot_liikumine()
                 self.ai.ai_pilt()
+                self.ai2.ai_pilt()
+                self.ai3.ai_pilt()
+                self.ai4.ai_pilt()
                 self.mangi()
             elif self.etapp == 'mang_on_labi':
                 print('nüüd sai mäng läbi, tuleb lõpuaken')
@@ -122,6 +134,21 @@ class Mang:
         self.ai.koll_x += self.ai.koll_x_p_liigub * self.dt
         self.ai.koll_x -= self.ai.koll_x_v_liigub * self.dt
 
+        self.ai2.koll_y -= self.ai2.koll_y_ü_liigub * self.dt
+        self.ai2.koll_y += self.ai2.koll_y_a_liigub * self.dt
+        self.ai2.koll_x += self.ai2.koll_x_p_liigub * self.dt
+        self.ai2.koll_x -= self.ai2.koll_x_v_liigub * self.dt
+
+        self.ai3.koll_y -= self.ai3.koll_y_ü_liigub * self.dt
+        self.ai3.koll_y += self.ai3.koll_y_a_liigub * self.dt
+        self.ai3.koll_x += self.ai3.koll_x_p_liigub * self.dt
+        self.ai3.koll_x -= self.ai3.koll_x_v_liigub * self.dt
+
+        self.ai4.koll_y -= self.ai4.koll_y_ü_liigub * self.dt
+        self.ai4.koll_y += self.ai4.koll_y_a_liigub * self.dt
+        self.ai4.koll_x += self.ai4.koll_x_p_liigub * self.dt
+        self.ai4.koll_x -= self.ai4.koll_x_v_liigub * self.dt
+
     def teeAlguseAken(self):
         #self.manager = pygame_gui.UIManager([800, 600])
         #self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
@@ -170,7 +197,7 @@ class Mang:
         pygame.display.update()
 
     def teeManguAken(self):
-        self.background = pygame.image.load('katse2.png')
+        self.background = pygame.image.load('woop.png')
         self.aken.blit(self.background, (0, 0))
         self.aken.blit(self.main.vana, [self.main.vana_x, self.main.vana_y])
         pygame.display.flip()
