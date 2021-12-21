@@ -6,6 +6,7 @@ from vanenlane import Bot
 from vanenlane2 import Bot2
 from vanenlane3 import Bot3
 from vanenlane4 import Bot4
+
 pygame.init()
 import sys
 
@@ -18,29 +19,28 @@ class Mang:
         self.manager = pygame_gui.UIManager([1024, 768])
         self.aken.fill([255, 255, 255])
         self.background = pygame.image.load('lol.png')
+        self.lõpp = pygame.image.load("lõpp.png")
         self.kell = pygame.time.Clock()
         self.mangTootab = True
         self.etapp = 'algus'
-        self.main = Vana(470 , 400)
+        self.main = Vana(470, 400)
         self.ai = Bot(200, 200)
         self.ai2 = Bot2(200, 200)
         self.ai3 = Bot3(400, 400)
         self.ai4 = Bot4(500, 500)
         pygame.mixer.music.load("mingitaustamuusika.mp3")
         taustamuusika = pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.0)
+        pygame.mixer.music.set_volume(0.1)
 
-
-        self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
-        self.nuppseaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
-        self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
-        self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
-        self.seadedtagasi = pygame_gui.elements.UIButton(pygame.Rect((500, 400), (150, 50)), "Tagasi", self.manager)
+        self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((200, 150), (200, 70)), "Alusta mängu", self.manager)
+        self.nuppseaded = pygame_gui.elements.UIButton(pygame.Rect((200, 250), (150, 50)), "Seaded", self.manager)
+        self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((200, 325), (150, 50)), "Mängu autorid",
+                                                         self.manager)
+        self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((200, 400), (150, 50)), "Mäng kinni", self.manager)
+        self.seadedtagasi = pygame_gui.elements.UIButton(pygame.Rect((800, 600), (150, 50)), "Tagasi", self.manager)
         self.muusikaliugur = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 100), (250, 40)), 50, (0, 99),
                                                                     self.manager)
-        self.heliefektid = pygame_gui.elements.UIHorizontalSlider(pygame.Rect((100, 300), (250, 40)), 50, (0, 99),
-                                                                  self.manager)
-        self.heliefektid.hide()
+
         self.muusikaliugur.hide()
         self.seadedtagasi.hide()
 
@@ -126,8 +126,8 @@ class Mang:
                 self.mangTootab = False
                 sys.exit()
 
-
-
+        if self.main.lapselkink == True:
+            self.etapp = 'mang_on_labi'
 
         self.ai.koll_y -= self.ai.koll_y_ü_liigub * self.dt
         self.ai.koll_y += self.ai.koll_y_a_liigub * self.dt
@@ -150,17 +150,17 @@ class Mang:
         self.ai4.koll_x -= self.ai4.koll_x_v_liigub * self.dt
 
     def teeAlguseAken(self):
-        #self.manager = pygame_gui.UIManager([800, 600])
-        #self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
-       #self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
-        #self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
-        #self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
+        # self.manager = pygame_gui.UIManager([800, 600])
+        # self.minemangu = pygame_gui.elements.UIButton(pygame.Rect((50, 150), (200, 70)), "Alusta mängu", self.manager)
+        # self.seaded = pygame_gui.elements.UIButton(pygame.Rect((50, 250), (150, 50)), "Seaded", self.manager)
+        # self.mänguautorid = pygame_gui.elements.UIButton(pygame.Rect((50, 325), (150, 50)), "Mängu autorid", self.manager)
+        # self.panekinni = pygame_gui.elements.UIButton(pygame.Rect((50, 400), (150, 50)), "Mäng kinni", self.manager)
         self.menüü_pilt = pygame.image.load("menüü.png")
         self.minemangu.show()
         self.nuppseaded.show()
         self.mänguautorid.show()
         self.panekinni.show()
-        self.heliefektid.hide()
+
         self.muusikaliugur.hide()
         self.seadedtagasi.hide()
         self.aken.blit(self.menüü_pilt, (0, 0))
@@ -175,7 +175,7 @@ class Mang:
         self.nuppseaded.hide()
         self.mänguautorid.hide()
         self.panekinni.hide()
-        self.heliefektid.show()
+
         self.muusikaliugur.show()
         self.seadedtagasi.show()
         self.aken.blit(self.seaded_taust, (0, 0))
@@ -197,15 +197,25 @@ class Mang:
         pygame.display.update()
 
     def teeManguAken(self):
-        self.background = pygame.image.load('woop.png')
+        self.background = pygame.image.load('katse2.png')
         self.aken.blit(self.background, (0, 0))
-        self.aken.blit(self.main.vana, [self.main.vana_x, self.main.vana_y])
+        if self.main.kink_käes == True and self.main.lapselkink == True:
+            self.aken.blit(self.main.lapsõnnelik, [self.main.laps_x, self.main.laps_y])
+            self.aken.blit(self.main.vana, [self.main.vana_x, self.main.vana_y])
+        if self.main.kink_käes == True and self.main.lapselkink == False:
+            self.aken.blit(self.main.lapskurb, [self.main.laps_x, self.main.laps_y])
+            self.aken.blit(self.main.vana2, [self.main.vana_x, self.main.vana_y])
+
+        else:
+            self.aken.blit(self.main.lapskurb, [self.main.laps_x, self.main.laps_y])
+            self.aken.blit(self.main.vana, [self.main.vana_x, self.main.vana_y])
+            self.aken.blit(self.main.kingid, [self.main.kingid_x, self.main.kingid_y])
         pygame.display.flip()
 
         # pygame.display.update()
 
     def teeLopuAken(self):
-        self.aken.fill([255, 0, 0])
+        self.aken.blit(self.lõpp, (0, 0))
         print('värvib lõpuakna punaseks')
         # pygame.display.update()
         for e in pygame.event.get():
